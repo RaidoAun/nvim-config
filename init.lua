@@ -14,4 +14,3 @@ vim.opt.rtp:prepend(lazypath)
 require("config")
 require("lazy").setup("plugins")
 
-vim.cmd([[:Neotree filesystem reveal current]])
