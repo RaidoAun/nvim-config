@@ -1,71 +1,84 @@
 return {
-	"NeogitOrg/neogit",
-	dependencies = {
-		"nvim-lua/plenary.nvim", -- required
-		"sindrets/diffview.nvim", -- optional - Diff integration
+    "NeogitOrg/neogit",
+    dependencies = {
+        "nvim-lua/plenary.nvim", -- required
+        "sindrets/diffview.nvim", -- optional - Diff integration
 
-		-- Only one of these is needed, not both.
-		"nvim-telescope/telescope.nvim", -- optional
-		-- "ibhagwan/fzf-lua",              -- optional
-	},
-	config = function()
-		local neogit = require("neogit")
-		neogit.setup({})
-		-- local cwd = vim.fn.getcwd()
-		-- vim.cmd("echomsg " .. vim.inspect(cwd))
-		-- local log_file = vim.fn.stdpath("data") .. "/nvim_debug.log"
-		-- local log = io.open(log_file, "a")
-		-- log:write("Debug: Sample variable - " .. vim.inspect(cwd) .. "\n")
-		-- log:close()
+        -- Only one of these is needed, not both.
+        "nvim-telescope/telescope.nvim", -- optional
+        -- "ibhagwan/fzf-lua",              -- optional
+    },
+    config = function()
+        local neogit = require("neogit")
+        neogit.setup({})
+        -- Function to log messages to a file
+        local function log_message(message)
+            -- local log_file = vim.fn.stdpath("data") .. "/neogit_toggle.log"
+            -- local log = io.open(log_file, "a")
+            -- log:write(message .. "\n")
+            -- log:close()
+        end
+        -- Function to find git repositories in a directory
+        local function find_git_repos()
+            local handle = io.popen('git config --file .gitmodules --get-regexp "^submodule\\..*\\.path$"')
+            if handle == nil then
+                return {}
+            end
 
-		local function find_git_repos(directory)
-			local handle = io.popen("find " .. directory .. ' -type d -name ".git"')
-			local result = handle:read("*a")
-			handle:close()
+            local result = handle:read("*a")
+            if result == nil then
+                return {}
+            end
+            handle:close()
 
-			local repos = {}
-			for path in result:gmatch("[^\r\n]+") do
-				table.insert(repos, path:sub(1, #path - 5)) -- Remove '/.git' from the path
-			end
+            local repos = {}
+            table.insert(repos, vim.fn.getcwd())
 
-			return repos
-		end
+            for line in result:gmatch("[^\r\n]+") do
+                local path = line:match("submodule%.(.*)%.path")
+                path = vim.fn.getcwd() .. "/" .. path
+                table.insert(repos, path)
+            end
 
-		-- Cache for git repositories
-		local git_repos = {}
-		local current_index = 1
+            return repos
+        end
 
-		-- Function to initialize the git repositories cache
-		local function initialize_git_repos()
-			git_repos = find_git_repos(vim.fn.getcwd())
-			if #git_repos == 0 then
-				vim.notify("No git repositories found in the current directory.")
-			else
-				current_index = 1
-			end
-		end
+        -- Cache for git repositories
+        local git_repos = {}
+        local current_index = 1
 
-		-- Function to toggle between git repositories
-		function ToggleNeogitProject()
-			if #git_repos == 0 then
-				initialize_git_repos()
-				if #git_repos == 0 then
-					return
-				end
-			end
+        -- Function to initialize the git repositories cache
+        local function initialize_git_repos()
+            git_repos = find_git_repos()
+            if #git_repos == 1 then
+                log_message("No git submodules found in the current directory.")
+            end
+            log_message("Initialized git repositories: " .. vim.inspect(git_repos))
+        end
 
-			current_index = current_index % #git_repos + 1
-			local repo_path = git_repos[current_index]
-			vim.cmd("cd " .. repo_path)
-			neogit.open()
-			vim.notify("Switched to " .. repo_path)
-		end
+        -- Function to toggle between git repositories
+        function ToggleNeogitProject()
+            if #git_repos == 0 then
+                initialize_git_repos()
+                if #git_repos == 1 then
+                    return
+                end
+            end
 
-		-- Key mapping to toggle between projects
-		vim.api.nvim_set_keymap("n", "<leader>gt", ":lua ToggleNeogitProject()<CR>", { noremap = true, silent = true })
+            current_index = current_index % #git_repos + 1
+            local repo_path = git_repos[current_index]
+            vim.cmd("cd " .. repo_path)
+            neogit.open()
+            log_message("Switched to " .. repo_path)
+        end
 
-		vim.keymap.set("n", "<leader>gg", function()
-			neogit.open()
-		end)
-	end,
+        -- Key mapping to toggle between projects
+        vim.keymap.set("n", "<leader>gt", function()
+            ToggleNeogitProject()
+        end, { noremap = true, silent = true })
+
+        vim.keymap.set("n", "<leader>gg", function()
+            neogit.open()
+        end)
+    end,
 }
