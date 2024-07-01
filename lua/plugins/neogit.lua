@@ -75,10 +75,10 @@ return {
         -- Key mapping to toggle between projects
         vim.keymap.set("n", "<leader>gt", function()
             ToggleNeogitProject()
-        end, { noremap = true, silent = true })
+        end, { noremap = true, silent = true, desc = "git toggle subproject"})
 
         vim.keymap.set("n", "<leader>gg", function()
             neogit.open()
-        end)
+        end, { desc = "git open"})
     end,
 }
