@@ -9,5 +9,5 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without yanking in vi
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard (normal and visual)" })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 vim.keymap.set("n", "Q", "@q", { desc = "Replay macro in register q" })
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer" })
+vim.keymap.set("n", "<leader>fb", vim.lsp.buf.format, { desc = "Format buffer" })
 vim.keymap.set("n", "<leader>q", vim.cmd.q, { desc = ":[Q]uit" })

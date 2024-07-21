@@ -38,7 +38,7 @@ return { -- Autocompletion
 		-- See `:help cmp`
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
-        require("snippets.go")
+		require("snippets.go")
 
 		luasnip.config.setup({
 			history = true,
@@ -111,7 +111,7 @@ return { -- Autocompletion
 			}),
 			sources = {
 				{ name = "luasnip" },
-                { name = "nvim_lsp" },
+				{ name = "nvim_lsp" },
 				{ name = "path" },
 			},
 		})
