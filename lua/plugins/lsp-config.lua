@@ -139,11 +139,19 @@ return { -- LSP Configuration & Plugins
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-		-- Manually included, not through Mason
+		local function is_executable(name)
+			return vim.fn.executable(name) == 1
+		end
+
 		local lspconfig = require("lspconfig")
 
-		-- zig language server
-		lspconfig.zls.setup({})
+		if is_executable("zls") then
+			lspconfig.zls.setup({})
+		end
+
+		if is_executable("ccls") then
+			lspconfig.ccls.setup({})
+		end
 
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -156,7 +164,7 @@ return { -- LSP Configuration & Plugins
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
 			-- clangd = {},
-			gopls = {},
+			-- gopls = {},
 			-- pyright = {},
 			-- rust_analyzer = {},
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
