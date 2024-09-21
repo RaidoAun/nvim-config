@@ -9,10 +9,10 @@ return { -- Autocompletion
 				-- Build Step is needed for regex support in snippets.
 				-- This step is not supported in many windows environments.
 				-- Remove the below condition to re-enable on windows.
-				if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-					return
-				end
-				return "make install_jsregexp"
+				-- if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+				-- 	return
+				-- end
+				-- return "make install_jsregexp"
 			end)(),
 			dependencies = {
 				-- `friendly-snippets` contains a variety of premade snippets.
@@ -114,6 +114,17 @@ return { -- Autocompletion
 				{ name = "nvim_lsp" },
 				{ name = "path" },
 			},
+			formatting = {
+				format = function(entry, vim_item)
+					-- Set a name for each completion source
+					vim_item.menu = ({
+						nvim_lsp = "[LSP]",
+						luasnip = "[Snippet]",
+						path = "[Path]",
+					})[entry.source.name]
+					return vim_item
+				end
+			}
 		})
 	end,
 }
