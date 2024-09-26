@@ -9,7 +9,7 @@ return { -- LSP Configuration & Plugins
 
 		-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
-		{ "folke/neodev.nvim",       opts = {} },
+		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
 		-- Brief aside: **What is LSP?**
@@ -119,6 +119,21 @@ return { -- LSP Configuration & Plugins
 						callback = function(event2)
 							vim.lsp.buf.clear_references()
 							vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+						end,
+					})
+				end
+				if client and client.supports_method("textDocument/formatting") then
+					local auto_format_augroup = vim.api.nvim_create_augroup("lsp-auto-format)", { clear = false })
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = auto_format_augroup,
+						buffer = event.buf,
+						callback = function()
+							vim.lsp.buf.format()
+						end,
+					})
+					vim.api.nvim_create_autocmd("LspDetach", {
+						callback = function(event2)
+							vim.api.nvim_clear_autocmds({ group = auto_format_augroup, buffer = event2.buf })
 						end,
 					})
 				end
