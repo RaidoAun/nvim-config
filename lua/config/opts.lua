@@ -20,7 +20,7 @@ vim.opt.expandtab = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
-
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
+vim.opt.splitright = true
