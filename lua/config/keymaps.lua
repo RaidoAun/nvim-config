@@ -10,3 +10,4 @@ vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboar
 vim.keymap.set("n", "Q", "@q", { desc = "Replay macro in register q" })
 vim.keymap.set("n", "<leader>fb", vim.lsp.buf.format, { desc = "Format buffer" })
 vim.keymap.set("n", "<leader>q", vim.cmd.q, { desc = ":[Q]uit" })
+vim.keymap.set("t", "<Esc>", '<C-\\><C-N>', { desc = ":Exit terminal mode" })

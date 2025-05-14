@@ -123,7 +123,7 @@ return { -- LSP Configuration & Plugins
 					})
 				end
 				if client and client.supports_method("textDocument/formatting") then
-					local auto_format_augroup = vim.api.nvim_create_augroup("lsp-auto-format)", { clear = false })
+					local auto_format_augroup = vim.api.nvim_create_augroup("lsp-auto-format", { clear = false })
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						group = auto_format_augroup,
 						buffer = event.buf,

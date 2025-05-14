@@ -6,3 +6,12 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
+
+vim.api.nvim_create_user_command(
+  'GitPruneD',
+  function()
+    vim.cmd('!git fetch --prune')
+    vim.cmd('!git branch -vv | grep ": gone]" | awk \'{print $1}\' | xargs -r git branch -D')
+  end,
+  {}
+)
