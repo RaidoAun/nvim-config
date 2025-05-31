@@ -11,3 +11,7 @@ vim.keymap.set("n", "Q", "@q", { desc = "Replay macro in register q" })
 vim.keymap.set("n", "<leader>fb", vim.lsp.buf.format, { desc = "Format buffer" })
 vim.keymap.set("n", "<leader>q", vim.cmd.q, { desc = ":[Q]uit" })
 vim.keymap.set("t", "<Esc>", '<C-\\><C-N>', { desc = ":Exit terminal mode" })
+vim.keymap.set('n', '<Right>', ':tabnext<CR>', { noremap = true, silent = true, desc = "Next tab" })
+vim.keymap.set('n', '<left>', ':tabprevious<CR>', { noremap = true, silent = true, desc = "Prev tab" })
+vim.keymap.set('n', '<leader>tn', ':tab split<CR>', { noremap = true, silent = true, desc = "tab split" })
+
