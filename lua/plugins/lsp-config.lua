@@ -157,9 +157,22 @@ return { -- LSP Configuration & Plugins
 			lspconfig.zls.setup({})
 		end
 
-		if is_executable("ccls") then
-			lspconfig.ccls.setup({})
-		end
+		-- if is_executable("clangd-18") then
+		--   lspconfig.clangd.setup{
+		-- 	cmd = { "clangd-18" }
+		--   }
+		-- end
+		--
+		-- if is_executable("ccls") then
+		-- 	lspconfig.ccls.setup {
+		-- 	  init_options = {
+		-- 		cache = {
+		-- 		  directory = ".ccls-cache";
+		-- 		};
+		-- 	  },
+		-- 	  filetypes = { "c" , "h"}
+		-- 	}
+		-- end
 
 		if is_executable("gopls") then
 			lspconfig.gopls.setup({
