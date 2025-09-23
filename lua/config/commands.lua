@@ -15,3 +15,12 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
+
+vim.api.nvim_create_user_command('WipeReg', function()
+    for i = 97, 122 do
+        vim.fn.setreg(vim.fn.nr2char(i), {})
+    end
+    for i = 0, 9 do
+        vim.fn.setreg(i, {})
+    end
+end, {})
