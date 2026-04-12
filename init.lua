@@ -1,16 +1,34 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
+vim.api.nvim_create_autocmd('PackChanged', {
+	callback = function(ev)
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == 'nvim-treesitter' and kind == 'update' then
+			if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+			vim.cmd('TSUpdate')
+		end
+	end
+})
 
-require("config")
-require("lazy").setup("plugins")
+vim.g.undotree_WindowLayout = 2
 
+vim.pack.add({
+	{ src = 'https://github.com/folke/tokyonight.nvim',                   version = 'cdc07ac78467a233fd62c493de29a17e0cf2b2b6' },
+	{ src = 'https://github.com/mbbill/undotree',                         version = '6fa6b57cda8459e1e4b2ca34df702f55242f4e4d' },
+	{ src = 'https://github.com/neovim/nvim-lspconfig',                   version = 'd27cf1d2ad1af19633ecff8b38eac6d5a899f2ff' },
+	{ src = 'https://github.com/stevearc/oil.nvim',                       version = '0fcc83805ad11cf714a949c98c605ed717e0b83e' },
+	{ src = 'https://github.com/nvim-treesitter/nvim-treesitter',         version = '4916d6592ede8c07973490d9322f187e07dfefac' },
+	{ src = 'https://github.com/nvim-lua/plenary.nvim',                   version = '74b06c6c75e4eeb3108ec01852001636d85a932b' },
+	{ src = 'https://github.com/nvim-telescope/telescope-ui-select.nvim', version = '6e51d7da30bd139a6950adf2a47fda6df9fa06d2' },
+	{ src = 'https://github.com/nvim-telescope/telescope.nvim',           version = 'f7c673b8e46e8f233ff581d3624a517d33a7e264' },
+	{ src = 'https://github.com/nvim-tree/nvim-web-devicons',             version = 'c72328a5494b4502947a022fe69c0c47e53b6aa6' },
+	{ src = 'https://github.com/lewis6991/gitsigns.nvim',                 version = '8d82c240f190fc33723d48c308ccc1ed8baad69d' },
+	{ src = 'https://github.com/hrsh7th/nvim-cmp',                        version = 'b5311ab3ed9c846b585c0c15b7559be131ec4be9' },
+	{ src = 'https://github.com/hrsh7th/cmp-path',                        version = 'c642487086dbd9a93160e1679a1327be111cbc25' },
+	{ src = 'https://github.com/hrsh7th/cmp-nvim-lsp',                    version = 'a8912b88ce488f411177fc8aed358b04dc246d7b' },
+	{ src = 'https://github.com/L3MON4D3/LuaSnip',                        version = 'a62e1083a3cfe8b6b206e7d3d33a51091df25357' },
+	{ src = 'https://github.com/rafamadriz/friendly-snippets',            version = '6cd7280adead7f586db6fccbd15d2cac7e2188b9' },
+	{ src = 'https://github.com/saadparwaiz1/cmp_luasnip',                version = '98d9cb5c2c38532bd9bdb481067b20fea8f32e90' },
+	{ src = 'https://github.com/NeogitOrg/neogit',                        version = 'e06745228600a585b88726fc9fba44a373c15a47' },
+	{ src = 'https://github.com/nvim-lualine/lualine.nvim',               version = 'a905eeebc4e63fdc48b5135d3bf8aea5618fb21c' }
+})
+
+require('config')
