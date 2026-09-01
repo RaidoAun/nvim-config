@@ -28,7 +28,8 @@ vim.pack.add({
 	{ src = 'https://github.com/rafamadriz/friendly-snippets',            version = '6cd7280adead7f586db6fccbd15d2cac7e2188b9' },
 	{ src = 'https://github.com/saadparwaiz1/cmp_luasnip',                version = '98d9cb5c2c38532bd9bdb481067b20fea8f32e90' },
 	{ src = 'https://github.com/NeogitOrg/neogit',                        version = 'e06745228600a585b88726fc9fba44a373c15a47' },
-	{ src = 'https://github.com/nvim-lualine/lualine.nvim',               version = 'a905eeebc4e63fdc48b5135d3bf8aea5618fb21c' }
+	{ src = 'https://github.com/nvim-lualine/lualine.nvim',               version = 'a905eeebc4e63fdc48b5135d3bf8aea5618fb21c' },
+	{ src = 'https://github.com/dlyongemallo/diffview-plus.nvim.git',     version = '460b96c8285fbf0cd411bddfd9322408f37f81a5' }
 })
 
 require('config')

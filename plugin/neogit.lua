@@ -218,7 +218,7 @@ neogit.setup {
 		-- The diffview integration enables the diff popup.
 		--
 		-- Requires you to have `sindrets/diffview.nvim` installed.
-		diffview = nil,
+		diffview = true,
 
 		-- Alternative diff viewer integration.
 		-- Requires you to have `esmuellert/codediff.nvim` installed.
